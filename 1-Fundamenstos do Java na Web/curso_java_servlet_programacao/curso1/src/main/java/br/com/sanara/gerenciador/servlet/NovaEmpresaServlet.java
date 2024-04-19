@@ -1,6 +1,8 @@
 package br.com.sanara.gerenciador.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,36 +16,49 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/novaEmpresa")
 public class NovaEmpresaServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("Cadastrando nova empresa");
-		
-		//lendo os parametros que são mandados pela requisição
+
+		// lendo os parametros que são mandados pela requisição
 		String nomeEmpresa = request.getParameter("nome");
+		String paramDataEmpresa = request.getParameter("data");
+		Date dataAbertura = null;
 		
+		//formatando a data no patern desejado
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			dataAbertura = sdf.parse(paramDataEmpresa);
+		} catch (Exception e) {
+			throw new ServletException(e);
+		}
+
 		Empresa empresa = new Empresa();
-		empresa.setNome(nomeEmpresa);		
-		
+		empresa.setNome(nomeEmpresa);
+		empresa.setDataAbertura(dataAbertura);
+
 		Banco banco = new Banco();
 		banco.adiciona(empresa);
-		
-		//chama o JSP
+
+		// RequestDispatcher rd = request.getRequestDispatcher("exercicioLaco.jsp");
+
+		// chama o JSP
 		RequestDispatcher rd = request.getRequestDispatcher("novaEmpresaCriada.jsp");
-		//usar a requesição para colocar o atributo dentro da requisição antes de passar pra JSP		
-		request.setAttribute("empresa", empresa.getNome());		
+		// usar a requesição para colocar o atributo dentro da requisição antes de passar pra JSP
+		request.setAttribute("empresa", empresa.getNome());
+
 		rd.forward(request, response);
-		
-		/* não é + necessário printar aqui pois agora tem a jsp
-		 * PrintWriter out = response.getWriter();	
-		out.println("<html>");
-		out.println("<body>");
-		out.println("Empresa " + nomeEmpresa + " cadastrada com sucesso");
-		out.println("</body>");
-		out.println("</html>");*/
-		
+
+		/*
+		 * não é + necessário printar aqui pois agora tem a jsp PrintWriter out =
+		 * response.getWriter(); out.println("<html>"); out.println("<body>");
+		 * out.println("Empresa " + nomeEmpresa + " cadastrada com sucesso");
+		 * out.println("</body>"); out.println("</html>");
+		 */
+
 	}
 
 }

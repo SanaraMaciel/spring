@@ -2,27 +2,31 @@
 	pageEncoding="UTF-8"%>
 
 <!-- para importar dados de classes e pacotes -->
-<%@ page import="java.util.List, br.com.sanara.gerenciador.servlet.Empresa" %>	
-	
+<%@ page
+	import="java.util.List, br.com.sanara.gerenciador.servlet.Empresa"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!-- usada para fazer formatação de datase etc  -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Java Standard Taglib</title>
 </head>
 <body>
 
 	Lista de empresas:
 	<br />
 	<ul>
-		<%
-		List<Empresa> lista = (List<Empresa>) request.getAttribute("empresas");
-		for (Empresa empresa : lista) {
-		%>
-		<li><%=empresa.getNome()%></li>
-		<%
-		}
-		%>
+		<!-- iterando a lista com a lib jstl -->
+		<c:forEach items="${empresas}" var="empresa">
+			<!-- imprime o campo nome com a data formatada-->
+			<li>${empresa.nome} - <fmt:formatDate value="${empresa.dataAbertura}" pattern="dd/MM/yyyy"/> </li>
+		</c:forEach>
+
+
 	</ul>
 
 
