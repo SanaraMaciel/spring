@@ -3,8 +3,8 @@ package br.com.sanara.gerenciador.servlet;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,15 +42,24 @@ public class NovaEmpresaServlet extends HttpServlet {
 
 		Banco banco = new Banco();
 		banco.adiciona(empresa);
-
-		// RequestDispatcher rd = request.getRequestDispatcher("exercicioLaco.jsp");
-
-		// chama o JSP
-		RequestDispatcher rd = request.getRequestDispatcher("novaEmpresaCriada.jsp");
-		// usar a requesição para colocar o atributo dentro da requisição antes de passar pra JSP
+		
+		List<Empresa> lista = banco.getEmpresas();
+		request.setAttribute("empresas", lista);		
 		request.setAttribute("empresa", empresa.getNome());
-
-		rd.forward(request, response);
+		
+		//faz o navegador fazer um redirecionamento para alguma página chamando o outro servlet
+		response.sendRedirect("listaEmpresas");
+		
+		// chama o JSP
+		// RequestDispatcher rd = request.getRequestDispatcher("exercicioLaco.jsp");		
+		//RequestDispatcher rd = request.getRequestDispatcher("novaEmpresaCriada.jsp");
+		
+		//Um servlet tbm pode chamar outro servlet -- listaEmpresas
+		//RequestDispatcher rd = request.getRequestDispatcher("/listaEmpresas");
+		
+		// usar a requesição para colocar o atributo dentro da requisição antes de passar pra JSP
+		//request.setAttribute("empresa", empresa.getNome());
+		//rd.forward(request, response);
 
 		/*
 		 * não é + necessário printar aqui pois agora tem a jsp PrintWriter out =
