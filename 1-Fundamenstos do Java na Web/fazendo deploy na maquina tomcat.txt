@@ -1,0 +1,12 @@
+**inicializando o tomcat na linha de comando:
+
+** abra o terminal do arquivo de produção no terminal : /home/sanara/prod_tomcat
+
+** entre na pasta bin : cd bin
+
+**linux: startup.sh windows: startup.bat
+
+** diferença entre WAR e JAR:
+
+WAR é o ZIP de projetos Java Web, que você roda de dentro de um servidor como o Tomcat.
+JAR é o ZIP para projetos comuns, que não são Web.
