@@ -10,18 +10,22 @@ import br.com.sanara.gerenciador.modelo.Banco;
 
 public class RemoveEmpresa {
 
-	public void executa(HttpServletRequest request, HttpServletResponse response)
+	public String executa(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String paramId = request.getParameter("id");
 		Integer id = Integer.valueOf(paramId);
-		
+
 		System.out.println(id);
-		
+
 		Banco banco = new Banco();
 		banco.removeEmpresaIterator(id);
-		
-		response.sendRedirect("entrada?acao=ListaEmpresas");
-		
+
+		// chama o navegador passando para ele redirecionar pra outra página, ai o
+		// navegador faz a requisição novamente
+		// response.sendRedirect("entrada?acao=ListaEmpresas");
+
+		return "redirect:entrada?acao=ListaEmpresas";
+
 	}
 }

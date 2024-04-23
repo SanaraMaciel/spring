@@ -2,6 +2,7 @@ package br.com.sanara.gerenciador.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import br.com.sanara.gerenciador.acao.AlteraEmpresa;
 import br.com.sanara.gerenciador.acao.ListaEmpresas;
 import br.com.sanara.gerenciador.acao.MostraEmpresa;
 import br.com.sanara.gerenciador.acao.NovaEmpresa;
+import br.com.sanara.gerenciador.acao.NovaEmpresaForm;
 import br.com.sanara.gerenciador.acao.RemoveEmpresa;
 
 @WebServlet("/entrada")
@@ -22,27 +24,43 @@ public class UnicaEntradaServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String paramAcao = request.getParameter("acao");
+		String nome = null;
 
 		if (paramAcao.equals("ListaEmpresas")) {
 			ListaEmpresas acao = new ListaEmpresas();
-			acao.executa(request, response);
+	        nome = acao.executa(request, response);
 			
 		} else if (paramAcao.equals("RemoveEmpresa")) {
 			RemoveEmpresa acao = new RemoveEmpresa();			
-			acao.executa(request, response);
+			nome = acao.executa(request, response);
 			
 		} else if (paramAcao.equals("MostraEmpresa")) {
 			MostraEmpresa acao = new MostraEmpresa();			
-			acao.executa(request, response);
+			nome = acao.executa(request, response);
 			
 		} else if (paramAcao.equals("AlteraEmpresa")) {
 			AlteraEmpresa acao = new AlteraEmpresa();			
-			acao.executa(request, response);
+			nome = acao.executa(request, response);
 			
 		} else if (paramAcao.equals("NovaEmpresa")) {
 			NovaEmpresa acao = new NovaEmpresa();
-			acao.executa(request, response);
+			nome = acao.executa(request, response);
+		}else if (paramAcao.equals("NovaEmpresaForm")) {
+
+		    NovaEmpresaForm acao = new NovaEmpresaForm();
+		    nome = acao.executa(request, response);
 		}
+		
+		String[] tipoEndereco = nome.split(":");
+		
+		if(tipoEndereco[0].equals("forward")) {
+			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/view/" + tipoEndereco[1]);
+			rd.forward(request, response);
+		}else {
+			response.sendRedirect(tipoEndereco[1]);
+		}
+		
+		
 
 	}
 

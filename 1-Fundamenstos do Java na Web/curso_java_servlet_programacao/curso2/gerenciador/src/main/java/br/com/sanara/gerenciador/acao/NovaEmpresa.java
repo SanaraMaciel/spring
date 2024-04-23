@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,8 @@ import br.com.sanara.gerenciador.modelo.Empresa;
 
 public class NovaEmpresa {
 
-	public void executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String executa(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		System.out.println("Cadastrando nova empresa");
 
@@ -36,8 +38,11 @@ public class NovaEmpresa {
 		Banco banco = new Banco();
 		banco.adiciona(empresa);
 
+		List<Empresa> lista = banco.getEmpresas();
+		
+		request.setAttribute("empresas", lista);		
 		request.setAttribute("empresa", empresa.getNome());
 
-		response.sendRedirect("entrada?acao=ListaEmpresas");
+		return "redirect:entrada?acao=ListaEmpresas";
 	}
 }
