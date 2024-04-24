@@ -1,6 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <body>
+
+	<c:import url="logout-parcial.jsp" />
+
 	<!-- utilizando o core para fazer o controle de fluxo da aplicação -->
 	<c:if test="${not empty empresa }">	
 		Empresa ${ empresa } cadastrada com sucesso!	

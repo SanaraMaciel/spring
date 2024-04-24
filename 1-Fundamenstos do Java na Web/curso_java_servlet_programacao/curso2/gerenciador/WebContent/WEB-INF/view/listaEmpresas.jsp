@@ -16,8 +16,9 @@
 <title>Java Standard Taglib</title>
 </head>
 <body>
+	<c:import url="logout-parcial.jsp" />
 
-	Usuario Logado: ${usuarioLogado.login }
+	<br> Usuario Logado: ${usuarioLogado.login }
 
 	<br>
 	<br>
@@ -34,10 +35,9 @@
 		<!-- iterando a lista com a lib jstl -->
 		<c:forEach items="${empresas}" var="empresa">
 			<!-- imprime o campo nome com a data formatada-->
-			<li>${empresa.nome }-<fmt:formatDate
-					value="${empresa.dataAbertura }" pattern="dd/MM/yyyy" /> <a
-				href="/gerenciador/entrada?acao=MostraEmpresa&id=${empresa.id }">editar</a>
-				<a href="/gerenciador/entrada?acao=RemoveEmpresa&id=${empresa.id }">remove</a>
+			<li>${empresa.nome }-<fmt:formatDate value="${empresa.dataAbertura }" pattern="dd/MM/yyyy" /> 
+			<a href="/gerenciador/entrada?acao=MostraEmpresa&id=${empresa.id }">editar</a>
+			<a href="/gerenciador/entrada?acao=RemoveEmpresa&id=${empresa.id }">remove</a>
 			</li>
 		</c:forEach>
 
