@@ -17,6 +17,17 @@
 </head>
 <body>
 
+	Usuario Logado: ${usuarioLogado.login }
+
+	<br>
+	<br>
+	<br>
+
+	<c:if test="${not empty empresa}">
+        Empresa ${ empresa } cadastrada com sucesso!
+    </c:if>
+
+
 	Lista de empresas:
 	<br />
 	<ul>
@@ -24,8 +35,8 @@
 		<c:forEach items="${empresas}" var="empresa">
 			<!-- imprime o campo nome com a data formatada-->
 			<li>${empresa.nome }-<fmt:formatDate
-					value="${empresa.dataAbertura }" pattern="dd/MM/yyyy" />				
-				<a href="/gerenciador/entrada?acao=MostraEmpresa&id=${empresa.id }">editar</a>
+					value="${empresa.dataAbertura }" pattern="dd/MM/yyyy" /> <a
+				href="/gerenciador/entrada?acao=MostraEmpresa&id=${empresa.id }">editar</a>
 				<a href="/gerenciador/entrada?acao=RemoveEmpresa&id=${empresa.id }">remove</a>
 			</li>
 		</c:forEach>
