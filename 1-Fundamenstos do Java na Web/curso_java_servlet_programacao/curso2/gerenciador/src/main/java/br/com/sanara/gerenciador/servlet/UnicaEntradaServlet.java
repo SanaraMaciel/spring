@@ -21,14 +21,14 @@ public class UnicaEntradaServlet extends HttpServlet {
 
 		String paramAcao = request.getParameter("acao");
 		
-		HttpSession sessao = request.getSession();
-		boolean usuarioNaoEstaLogado = sessao.getAttribute("usuarioLogado") == null;
-		boolean ehAcaoProtegida = !(paramAcao.equals("Login") || paramAcao.equals("LoginForm"));
-				
-		if(ehAcaoProtegida && usuarioNaoEstaLogado) {
-		    response.sendRedirect("redirect:entrada?acao=LoginForm");
-		    return;
-		}
+//		HttpSession sessao = request.getSession();
+//		boolean usuarioNaoEstaLogado = sessao.getAttribute("usuarioLogado") == null;
+//		boolean ehAcaoProtegida = !(paramAcao.equals("Login") || paramAcao.equals("LoginForm"));
+//				
+//		if(ehAcaoProtegida && usuarioNaoEstaLogado) {
+//		    response.sendRedirect("redirect:entrada?acao=LoginForm");
+//		    return;
+//		}
 		
 		
 
