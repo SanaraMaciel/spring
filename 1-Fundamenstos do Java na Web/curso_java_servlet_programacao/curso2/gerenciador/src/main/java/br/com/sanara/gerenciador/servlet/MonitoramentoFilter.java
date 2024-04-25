@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
 //@WebFilter(urlPatterns="/entrada")
-@WebFilter("/entrada")
+//@WebFilter("/entrada")
 public class MonitoramentoFilter implements Filter {
 
 	@Override
