@@ -1,0 +1,17 @@
+escopos de dependência Maven:
+
+O Maven permite definir escopos para suas dependências. Isso é útil para especificar quando uma dependência é necessária. Os escopos mais comuns são:
+
+* compile: O padrão indica que a dependência é necessária para compilar e executar o projeto.
+* provided: Usado para dependências que são fornecidas pelo ambiente de execução (como um servidor web), e não devem ser incluídas no pacote final.
+* runtime: A dependência não é necessária para compilar, mas é para execução.
+* test: A dependência é usada apenas para testes.
+
+<dependency>
+    <groupId>com.exemplo</groupId>
+    <artifactId>libX</artifactId>
+    <version>1.0</version>
+    <scope>test</scope>
+</dependency>
+
+A definição de escopo corretamente otimiza o gerenciamento de dependências e garante que apenas as dependências necessárias sejam incluídas no pacote final.

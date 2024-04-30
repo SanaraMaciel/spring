@@ -1,6 +1,7 @@
 package br.com.sanara;
 
 import br.com.sanara.model.Produto;
+import br.com.sanara.service.TraduzProdutoService;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -19,6 +20,11 @@ public class Main {
             System.out.println(produto);
         }
 
+        TraduzProdutoService traducaoService = new TraduzProdutoService();
+        for (Produto produto : produtos) {
+            traducaoService.traduzir(produto);
+            System.out.println(produto);
+        }
 
     }
 }
