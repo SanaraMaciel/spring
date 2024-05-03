@@ -15,3 +15,55 @@ O Maven permite definir escopos para suas dependências. Isso é útil para espe
 </dependency>
 
 A definição de escopo corretamente otimiza o gerenciamento de dependências e garante que apenas as dependências necessárias sejam incluídas no pacote final.
+
+
+biblioteca de tradução de texto em java: https://github.com/dynomake/libretranslate-java
+
+
+******  comando maven: 
+
+./mvnw clean package
+
+dando permissão ao arquivo mvnw: chmod +x mvnw
+
+executar o build: ./mvnw clean package --> faz o clean e gera o build do pacote novamente
+
+executando passando um perfil de proidução: ./mvnw clean package -Pprod -DskipTests esse (-DskipTests) é pra pular os testes automatizados
+
+Imagine que você precisa realizar o build de uma aplicação com os seguintes requisitos:
+
+Pular os testes automatizados;
+Limpeza do diretório destino antes de realizar o build;
+Seleção do perfil de produção;
+Empacotamento da aplicação como WAR;
+Nome do arquivo empacotado como "meteora-api".
+
+Configuração do pom.xml:
+
+<project>
+<packaging>war</packaging>
+<profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activedProperties>dev</activedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activedProperties>prod</activedProperties>
+            </properties>
+        </profile>
+    </profiles>
+
+<build>
+<finalName>meteora-api</finalName>
+</build>
+
+</project>
+
+Comando: mvn clean package -Pprod -DskipTests

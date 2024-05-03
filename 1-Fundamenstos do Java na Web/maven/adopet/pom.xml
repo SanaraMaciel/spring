@@ -61,7 +61,30 @@
 		</dependency>
 	</dependencies>
 
+	<!--informa ao maven que será trabalhado com diferentes perfis-->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true </activeByDefault>
+			</activation>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<activatedProperties>prod</activatedProperties>
+			</properties>
+		</profile>
+
+	</profiles>
+
+
 	<build>
+		<finalName>adopet-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
