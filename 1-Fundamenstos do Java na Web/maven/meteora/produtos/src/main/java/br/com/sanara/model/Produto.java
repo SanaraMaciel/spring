@@ -22,6 +22,14 @@ public class Produto {
     @CsvBindByName(column = "Category", required = true)
     private String category;
 
+    public Produto(int id, String name, String description, BigDecimal price, String category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
+
     /*getters and setters*/
 
     public int getId() {

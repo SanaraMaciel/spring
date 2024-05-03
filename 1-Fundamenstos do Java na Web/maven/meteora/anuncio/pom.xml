@@ -17,4 +17,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+
+    <dependencies>
+        <!--indica que o módulo de anuncio depende do módulo de produto-->
+        <dependency>
+            <groupId>br.com.sanara</groupId>
+            <artifactId>produtos</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+    </dependencies>
+
+
 </project>
