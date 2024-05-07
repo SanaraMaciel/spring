@@ -3,6 +3,7 @@ package br.com.sanara.forum.repository;
 import br.com.sanara.forum.modelo.Topico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
      * query usando JPQL
      */
     @Query("SELECT t FROM Topico t WHERE t.curso.nome = :nomeCurso")
-    List<Topico> carregarPorNomeDoCurso(String nomeCurso);
+    List<Topico> carregarPorNomeDoCurso(@Param("nomeCurso") String nomeCurso);
+
+
+
 
 }

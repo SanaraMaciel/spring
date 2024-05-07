@@ -1,18 +1,20 @@
 package br.com.sanara.forum.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
 import br.com.sanara.forum.controller.dto.TopicoDto;
+import br.com.sanara.forum.form.TopicoForm;
+import br.com.sanara.forum.modelo.Topico;
+import br.com.sanara.forum.repository.CursoRepository;
 import br.com.sanara.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.sanara.forum.modelo.Curso;
-import br.com.sanara.forum.modelo.Topico;
+import java.net.URI;
+import java.util.List;
 
 @RestController
+@RequestMapping("/topicos")
 public class TopicosController {
 
     /*
@@ -28,6 +30,9 @@ public class TopicosController {
     @Autowired
     private TopicoRepository topicoRepository;
 
+    @Autowired
+    private CursoRepository cursoRepository;
+
 
     /**
      * retorna os dados vindo do banco de dados - topicos
@@ -41,11 +46,13 @@ public class TopicosController {
     }
 
 
-    /** consulta com filtros
-     * @param  /nome do curso
+    /**
+     * consulta com filtros
+     *
+     * @param /nome do curso
      * @return lista de topicos conforme filtro
      */
-    @RequestMapping("/topicos")
+    @GetMapping
     public List<TopicoDto> lista(String nomeCurso) {
         if (nomeCurso == null) {
             List<Topico> topicos = topicoRepository.findAll();
@@ -56,5 +63,17 @@ public class TopicosController {
         }
     }
 
-
+    /**
+     * cadastrando um tópico
+     *
+     * @param /nome do curso
+     * @return topico criado
+     */
+    @PostMapping
+    public ResponseEntity<TopicoDto> cadastrar(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
+        Topico topico = form.converter(cursoRepository, form);
+        topicoRepository.save(topico);
+        URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(uri).body(new TopicoDto(topico));
+    }
 }
