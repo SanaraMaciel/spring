@@ -14,7 +14,9 @@ import br.com.sanara.forum.modelo.Topico;
 
 @RestController
 public class TopicosController {
-	/*
+
+    /*
+    cria uma lista de topicos e retorna
 	@RequestMapping("/topicos")
 	public List<TopicoDto> lista() {
 		Topico topico = new Topico("Dúvida", "Dúvida com Spring2", new Curso("Spring", "Programação"));
@@ -32,10 +34,26 @@ public class TopicosController {
      *
      * @return lista de topicos
      */
-    @RequestMapping("/topicos")
+    @RequestMapping("/topicosAll")
     public List<TopicoDto> lista() {
         List<Topico> topicos = topicoRepository.findAll();
         return TopicoDto.converter(topicos);
+    }
+
+
+    /** consulta com filtros
+     * @param  /nome do curso
+     * @return lista de topicos conforme filtro
+     */
+    @RequestMapping("/topicos")
+    public List<TopicoDto> lista(String nomeCurso) {
+        if (nomeCurso == null) {
+            List<Topico> topicos = topicoRepository.findAll();
+            return TopicoDto.converter(topicos);
+        } else {
+            List<Topico> topicos = topicoRepository.carregarPorNomeDoCurso(nomeCurso);
+            return TopicoDto.converter(topicos);
+        }
     }
 
 
