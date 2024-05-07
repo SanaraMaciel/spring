@@ -106,6 +106,8 @@ public class TopicosController {
      * @return topico alterado
      */
     @PutMapping("/{id}")
+    // anotação TRansactional : efetua o commit automático da transação, caso não ocorra uma exception
+    //Executa o método dentro de um contexto transacional
     @Transactional
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
         Topico topico = form.atualizar(id, topicoRepository);
