@@ -114,5 +114,18 @@ public class TopicosController {
         return ResponseEntity.ok(new TopicoDto(topico));
     }
 
+    /**
+     * remove um tópico
+     *
+     * @param /id do topico a ser removido
+     * @return ok
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TopicoDto> remover(@PathVariable Long id) {
+        topicoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+
 }
 
