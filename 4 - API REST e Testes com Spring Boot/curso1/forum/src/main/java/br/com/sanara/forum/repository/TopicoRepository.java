@@ -13,6 +13,14 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
     List<Topico> findByCursoNome(String nomeCurso);
 
+    /**outra forma de fazer um mapeamento é utilizar o caracter _ para informar ao spring que
+     * vc está querendo pesquisar pelo relaciob=namento Entidade no caso Curso pelo atributo nome dentro0 da
+     * classe curso, em caso de houver tbm no topico um atributo chamado cursoNome
+     * @param nomeCurso
+     * @return
+     */
+    //List<Topico> findByCurso_Nome(String nomeCurso);
+
     /**
      * query usando JPQL
      */
