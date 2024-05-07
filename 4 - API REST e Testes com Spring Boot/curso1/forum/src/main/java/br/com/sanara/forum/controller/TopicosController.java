@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -89,14 +90,21 @@ public class TopicosController {
      * @return topico
      */
     @GetMapping("/{id}")
-    public DetalhesDoTopicoDto detalhar(@PathVariable("id") Long id) {
+    public ResponseEntity<DetalhesDoTopicoDto> detalhar(@PathVariable Long id) {
+
         //metodo getOne antigo:
         //Topico topico = topicoRepository.getOne(id);
-
         //Utilizar agora o metodo getReferenceById:
-        Topico topico = topicoRepository.getReferenceById(id);
-        return new DetalhesDoTopicoDto(topico);
+        //Topico topico = topicoRepository.getReferenceById(id);
+
+
+        Optional<Topico> topico = topicoRepository.findById(id);
+        if (topico.isPresent()) {
+            return ResponseEntity.ok(new DetalhesDoTopicoDto(topico.get()));
+        }
+        return ResponseEntity.notFound().build();
     }
+
 
 
     /**
@@ -110,8 +118,13 @@ public class TopicosController {
     //Executa o método dentro de um contexto transacional
     @Transactional
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
-        Topico topico = form.atualizar(id, topicoRepository);
-        return ResponseEntity.ok(new TopicoDto(topico));
+        Optional<Topico> optional = topicoRepository.findById(id);
+        if (optional.isPresent()) {
+            Topico topico = form.atualizar(id, topicoRepository);
+            return ResponseEntity.ok(new TopicoDto(topico));
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     /**
@@ -122,8 +135,13 @@ public class TopicosController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<TopicoDto> remover(@PathVariable Long id) {
-        topicoRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        Optional<Topico> optional = topicoRepository.findById(id);
+        if (optional.isPresent()) {
+            topicoRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+
     }
 
 
