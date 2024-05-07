@@ -30,5 +30,7 @@ public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
 
 
+    //Utilizar agora o metodo getReferenceById:
+    Topico getReferenceById(Long id);
 
 }

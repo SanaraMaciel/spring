@@ -35,6 +35,10 @@ public class DetalhesDoTopicoDto {
     public DetalhesDoTopicoDto() {
     }
 
+    public List<RespostaDto> getRespostas() {
+        return respostas;
+    }
+
     public Long getId() {
         return id;
     }
