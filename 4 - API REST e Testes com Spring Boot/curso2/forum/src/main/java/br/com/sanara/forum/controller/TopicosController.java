@@ -1,22 +1,5 @@
 package br.com.sanara.forum.controller;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import br.com.sanara.forum.controller.dto.DetalhesDoTopicoDto;
 import br.com.sanara.forum.controller.dto.TopicoDto;
 import br.com.sanara.forum.controller.form.AtualizacaoTopicoForm;
@@ -24,6 +7,21 @@ import br.com.sanara.forum.controller.form.TopicoForm;
 import br.com.sanara.forum.modelo.Topico;
 import br.com.sanara.forum.repository.CursoRepository;
 import br.com.sanara.forum.repository.TopicoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -41,7 +39,21 @@ public class TopicosController {
     @RequestParam int pagina, @RequestParam int qtd, @RequestParam String ordenacao) {
     Pageable paginacao = PageRequest.of(pagina, qtd, Sort.Direction.ASC, ordenacao);
     */
+    @PostMapping
+    @Transactional
+    //anotação para dizer que quero que o Spring limpe determinado cache.
+    //parametro para limpar todos os registros, que é o allEntries = true.
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
+    public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
+        Topico topico = form.converter(cursoRepository);
+        topicoRepository.save(topico);
+
+        URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(uri).body(new TopicoDto(topico));
+    }
+
     @GetMapping
+    @Cacheable(value= "listaDeTopicos") //identificador do cacheable pelo parametro
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
                                  @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable paginacao) {
 
@@ -52,16 +64,6 @@ public class TopicosController {
             Page<Topico> topicos = topicoRepository.findByCursoNome(nomeCurso, paginacao);
             return TopicoDto.converter(topicos);
         }
-    }
-
-    @PostMapping
-    @Transactional
-    public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
-        Topico topico = form.converter(cursoRepository);
-        topicoRepository.save(topico);
-
-        URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
-        return ResponseEntity.created(uri).body(new TopicoDto(topico));
     }
 
     @GetMapping("/{id}")
