@@ -1,5 +1,6 @@
 package br.com.sanara.forum.config.security;
 
+import br.com.sanara.forum.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -20,6 +22,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
     private AutenticacaoService autenticacaoService;
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     @Bean
@@ -42,11 +49,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable() //desabilitado p/ o Spring security não fazer a validação do token do csrf.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//informa ao spring p/ n criar sessao
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //informa ao spring p/ n criar sessao
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class); //adiciona nossa classe de filtro p/ o spring verificar antes da classe do spring
 
 
-                //comentado p/ o spring não usar sessão
-                //.and().formLogin();//diz ao spring pra gerar um formulario de autenticacao
+        //comentado p/ o spring não usar sessão
+        //.and().formLogin();//diz ao spring pra gerar um formulario de autenticacao
     }
 
     //configuracoes de recursos estaticos(js,css, imagens,etc.)
