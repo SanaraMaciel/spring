@@ -23,3 +23,6 @@ Para informar as variaveis de ambiente que deseja colocar no seu ambiente de pro
 **ou no próprio comando java -jar já colocar os exports das variáveis assim:
 	java -jar -Dspring.profiles.active=prod -DFORUM_DATABASE_URL=jdbc:h2:mem:alura-forum -DFORUM_DATABASE_USERNAME=sa -DFORUM_DATABASE_PASSWORD= -DFORUM_JWT_SECRET=123456 forum.jar
 	
+	
+
+	
