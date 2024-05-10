@@ -15,8 +15,6 @@
 	<name>forum</name>
 	<description>Demo project for Spring Boot</description>
 
-	<!-- tag que informa ao maven q eh pra gerar o arquivo war e nao jar 
-	<packaging>war</packaging>-->
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -96,12 +94,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- adiciona a dependencia do tomcat p/ dizer ao maven q a lib do tomcat vai ser a provedora "provided" p/ n duplicar a dependencia do tomcat-->
-		<!--<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>-->
 
 	</dependencies>
 

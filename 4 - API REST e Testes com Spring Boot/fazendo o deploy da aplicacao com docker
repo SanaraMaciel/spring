@@ -1,0 +1,31 @@
+criar o arquivo DockerFile no seu projeto com as informações:
+	FROM openjdk:8-jdk-alpine
+	RUN addgroup -S spring && adduser -S spring -G spring
+	USER spring:spring
+	AGR JAR_FILE=target/*.jar
+	COPY ${JAR_FILE} app.jar
+	ENTRYPOINT["java","-jar","/app.jar"]
+	
+depois entrar nha pasta do projeto pelo terminal e executar o seguinte comando para ele criar uma imagem:
+	docker build -t alura/forum .
+	
+obs: as vezes será necessário colocar sudo na permissao pra poder criar a img: sudo docker build -t alura/forum .	
+obs: ainda não esta rodando o conteiner apenas criando a imagem
+
+
+comando para listar todas as imagens:
+	docker image list --> sudo
+	
+
+
+para rodar o conteiner com a img criada:
+	docker run alura/forum  --> sudo
+	
+	
+caso dê problemas no profile para saber o ativo, é necessário dizer ao docker qual é o profile ativo:
+
+docker run –p 8080:8080  -e SPRING_PROFILES_ACTIVE= 'prod' –e FORUM_DATABASE_URL='jdbc:h2:mem:alura-forum' -e FORUM_DATABASE_USERNAME='sa' -e FORUM_DATABASE_PASSWORD='' -e FORUM_JWT_SECRET='123456' alura/forum
+
+
+	
+	
