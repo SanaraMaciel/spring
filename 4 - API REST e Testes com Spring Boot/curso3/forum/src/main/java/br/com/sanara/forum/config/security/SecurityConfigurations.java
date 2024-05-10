@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-@Profile("prod")//faz o spring só carregar a classe qdo for perfil de producao
+@Profile(value = { "prod", "test" })//faz o spring só carregar a classe qdo for perfil de producao
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired

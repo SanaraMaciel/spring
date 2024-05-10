@@ -20,7 +20,8 @@ import br.com.sanara.forum.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")
-@Profile("prod")//fala pro spring so carregar esse controller no ambiente de prod
+@Profile(value = { "prod", "test" })//fala pro spring so carregar esse controller no ambiente de prod
+//qdo colocado em chaves vc pode passar + de uma classe para ser executado
 public class AutenticacaoController {
 	
 	@Autowired
