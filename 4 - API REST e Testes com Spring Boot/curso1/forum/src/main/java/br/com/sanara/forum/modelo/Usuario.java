@@ -8,6 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class Usuario {
 
+	// identity é utilizada para caso o banco seja auto incremento
+	// e sequency se o seu banco tiver uma sequencia
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
