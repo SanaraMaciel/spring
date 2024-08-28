@@ -19,30 +19,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-		.authorizeRequests()
-			.anyRequest().authenticated()
-		.and()
-		.formLogin(form -> form
-            .loginPage("/login")
-            .defaultSuccessUrl("/home", true)
-            .permitAll()
-        )
-		.logout(logout -> logout.logoutUrl("/logout"))
-		.csrf().disable();
+		http.authorizeRequests().antMatchers("/home/**").permitAll().anyRequest().authenticated().and()
+				.formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/usuario/pedido", true).permitAll())
+				.logout(logout -> {
+					logout.logoutUrl("/logout").logoutSuccessUrl("/home");
+				});
 	}
-
-	/**
-	 * exemplo utilizando usuário salvo em memoria
-	 * 
-	 * @Bean
-	 * @Override public UserDetailsService userDetailsService() {
-	 * 
-	 *    UserDetails user =
-	 *    User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
-	 *     .build();
-	 *   return new InMemoryUserDetailsManager(user); }
-	 **/
 
 	/**
 	 * utilizando o BCrypt para criptografia de senha e usuário salvo no banco de
@@ -53,11 +35,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 		// criando o usuário para teste salvando no banco
-		//UserDetails user = User.builder().username("joao").password(encoder.encode("joao")).roles("ADM").build();
-		//auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder).withUser(user);
-		
+		// UserDetails user =
+		// User.builder().username("joao").password(encoder.encode("joao")).roles("ADM").build();
+		// auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder).withUser(user);
+
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder);
 
 	}
+
+	/**
+	 * exemplo utilizando usuário salvo em memoria
+	 * 
+	 * @Bean
+	 * @Override public UserDetailsService userDetailsService() {
+	 * 
+	 *           UserDetails user =
+	 *           User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
+	 *           .build(); return new InMemoryUserDetailsManager(user); }
+	 **/
 
 }
