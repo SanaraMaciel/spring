@@ -1,0 +1,41 @@
+
+*** tabela pedido ****
+CREATE TABLE `pedido` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `data_da_entrega` date DEFAULT NULL,
+  `descricao` varchar(255) DEFAULT NULL,
+  `nome_produto` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `url_imagem` varchar(255) DEFAULT NULL,
+  `url_produto` varchar(255) DEFAULT NULL,
+  `valor_negociado` decimal(19,2) DEFAULT NULL,
+  `user_username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKjgvb1pj32pv4ub09dofgm2eoh` (`user_username`),
+  CONSTRAINT `FKjgvb1pj32pv4ub09dofgm2eoh` FOREIGN KEY (`user_username`) REFERENCES `users` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+*** tabela usuarios ****
+create table users(
+    username varchar(50) not null primary key,
+    password varchar(200) not null,
+    enabled boolean not null
+);
+
+
+*** tabela perfil de acesso ****
+create table authorities (
+    username varchar(50) not null,
+    authority varchar(50) not null,
+    constraint fk_authorities_users foreign key(username) references users(username)
+);
+create unique index ix_auth_username on authorities (username,authority);
+
+
+*** insert de pedido ****
+
+INSERT INTO mudi.pedido
+(id,  descricao, nome_produto, status, url_imagem, url_produto, valor_negociado, user_username)
+VALUES(1, 'celular', 'celular', 'AGUARDANDO', '', '', 500, 'joao');
+
